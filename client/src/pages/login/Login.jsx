@@ -3,11 +3,10 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Register() {
+function Login() {
     const navigate = useNavigate();
 
     const [userData, setUserData] = useState({
-        user_name: '',
         email: '',
         password: '',
     });
@@ -15,7 +14,7 @@ function Register() {
     const onFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/register', {
+            const response = await fetch('http://localhost:8080/login', {
                 method: 'POST',
                 body: JSON.stringify(userData),
                 headers: {
@@ -23,10 +22,13 @@ function Register() {
                 },
             });
             const data = await response.json();
-
-            if (data.insertId) {
-                navigate('/LOGIN');
-            } else if (data.error) {
+            // saving JWT in local storage
+            if (data.token) {
+                localStorage.setItem('jwt', data.token);
+                navigate('/home');
+            }
+            // Edge cases
+            else if (data.error) {
                 alert(data.error);
             } else {
                 alert(data.details[0].message);
@@ -50,19 +52,8 @@ function Register() {
                         paddingBottom={2}
                         textAlign='center'
                     >
-                        Register
+                        Log in
                     </Typography>
-                    <TextField
-                        sx={{ pb: 2 }}
-                        id='outlined-helperText'
-                        label='User name'
-                        onChange={(event) =>
-                            setUserData((prev) => ({
-                                ...prev,
-                                user_name: event.target.value,
-                            }))
-                        }
-                    />
                     <TextField
                         sx={{ pb: 2 }}
                         id='outlined-helperText'
@@ -86,9 +77,9 @@ function Register() {
                             }))
                         }
                     />
-                    <Button type='submit'>Create an account!</Button>
+                    <Button type='submit'>Log in now!</Button>
                     <Link
-                        to='/login'
+                        to='/'
                         style={{
                             paddingTop: 30,
                             textAlign: 'right',
@@ -96,11 +87,12 @@ function Register() {
                             color: 'grey',
                         }}
                     >
-                        Already have an account? Login
+                        Don't have an account? Register
                     </Link>
                 </Box>
             </form>
         </Container>
     );
 }
-export default Register;
+
+export default Login;
