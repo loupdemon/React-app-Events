@@ -69,7 +69,6 @@ function AddEvent() {
                             sx={{ pb: 2 }}
                             id='outlined-helperText'
                             label='Name'
-                            helperText='Some important text'
                             onChange={(event) =>
                                 setAddEvent((prev) => ({
                                     ...prev,
@@ -81,7 +80,6 @@ function AddEvent() {
                             sx={{ pb: 2 }}
                             id='outlined-helperText'
                             label='location'
-                            helperText='Some important text'
                             onChange={(event) =>
                                 setAddEvent((prev) => ({
                                     ...prev,
@@ -93,7 +91,6 @@ function AddEvent() {
                             sx={{ pb: 2 }}
                             id='outlined-helperText'
                             label='Image URL'
-                            helperText='Some important text'
                             onChange={(event) =>
                                 setAddEvent((prev) => ({
                                     ...prev,
@@ -105,7 +102,6 @@ function AddEvent() {
                             sx={{ pb: 2 }}
                             id='outlined-helperText'
                             label='Event date'
-                            helperText='excepted format yyyy-mm-dd'
                             onChange={(event) =>
                                 setAddEvent((prev) => ({
                                     ...prev,
