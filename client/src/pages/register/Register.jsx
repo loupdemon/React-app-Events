@@ -1,38 +1,75 @@
 import React from 'react';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Register() {
     const navigate = useNavigate();
 
+    // state for saving user data from inputs
+
     const [userData, setUserData] = useState({
         user_name: '',
         email: '',
         password: '',
+        password1: '',
+        password2: '',
     });
 
+    // state to save error messages - password check
+
+    const [errorMessage, setErrorMessage] = useState({
+        generic_err: '',
+        password_err: '',
+    });
+    // Here I use effect to track changes to two passwords entries, if they match I set user data password if not setting error message
+    useEffect(() => {
+        const passwordCheck = (psw1, psw2) => {
+            if (psw1 === psw2) {
+                setUserData((prev) => ({
+                    ...prev,
+                    password: psw1,
+                }));
+                setErrorMessage((prev) => ({
+                    ...prev,
+                    password_err: '',
+                }));
+            } else {
+                setErrorMessage((prev) => ({
+                    ...prev,
+                    password_err: 'Password do not mach',
+                }));
+            }
+        };
+        passwordCheck(userData.password1, userData.password2);
+    }, [userData.password1, userData.password2]);
+
+    // on form submit data is posted to back end and saved if something is not right error messages returned
     const onFormSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8080/register', {
-                method: 'POST',
-                body: JSON.stringify(userData),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
+        if (errorMessage.password_err) {
+            alert(errorMessage.password_err);
+        } else {
+            try {
+                const response = await fetch('http://localhost:8080/register', {
+                    method: 'POST',
+                    body: JSON.stringify(userData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
 
-            if (data.insertId) {
-                navigate('/LOGIN');
-            } else if (data.error) {
-                alert(data.error);
-            } else {
-                alert(data.details[0].message);
+                if (data.insertId) {
+                    navigate('/LOGIN');
+                } else if (data.error) {
+                    alert(data.error);
+                } else {
+                    alert(data.details[0].message);
+                }
+            } catch (err) {
+                alert(err);
             }
-        } catch (err) {
-            alert(err);
         }
     };
     return (
@@ -56,6 +93,7 @@ function Register() {
                         sx={{ pb: 2 }}
                         id='outlined-helperText'
                         label='User name'
+                        required
                         onChange={(event) =>
                             setUserData((prev) => ({
                                 ...prev,
@@ -67,6 +105,7 @@ function Register() {
                         sx={{ pb: 2 }}
                         id='outlined-helperText'
                         label='Email'
+                        required
                         onChange={(event) =>
                             setUserData((prev) => ({
                                 ...prev,
@@ -79,10 +118,24 @@ function Register() {
                         id='outlined-helperText'
                         type='password'
                         label='Password'
+                        required
                         onChange={(event) =>
                             setUserData((prev) => ({
                                 ...prev,
-                                password: event.target.value,
+                                password1: event.target.value,
+                            }))
+                        }
+                    />
+                    <TextField
+                        sx={{ pb: 2 }}
+                        id='outlined-helperText'
+                        type='password'
+                        label='Reapeat the password'
+                        required
+                        onChange={(event) =>
+                            setUserData((prev) => ({
+                                ...prev,
+                                password2: event.target.value,
                             }))
                         }
                     />
