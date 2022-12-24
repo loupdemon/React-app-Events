@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const path = require('path');
 
 const authRouter = require('./src/routes/auth');
 const eventsRouter = require('./src/routes/events');
@@ -10,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(cors());
 app.use(express.json());
+// this is to get all front end data to be taken and used in nodejs
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.use('/', authRouter);
 app.use('/', eventsRouter);
