@@ -19,7 +19,6 @@ function Register() {
     // state to save error messages - password check
 
     const [errorMessage, setErrorMessage] = useState({
-        generic_err: '',
         password_err: '',
     });
     // Here I use effect to track changes to two passwords entries, if they match I set user data password if not setting error message
@@ -51,13 +50,16 @@ function Register() {
             alert(errorMessage.password_err);
         } else {
             try {
-                const response = await fetch('http://localhost:8080/register', {
-                    method: 'POST',
-                    body: JSON.stringify(userData),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
+                const response = await fetch(
+                    'https://sgrab-events.herokuapp.com/register',
+                    {
+                        method: 'POST',
+                        body: JSON.stringify(userData),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
                 const data = await response.json();
 
                 if (data.insertId) {

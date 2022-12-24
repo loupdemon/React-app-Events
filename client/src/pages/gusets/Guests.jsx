@@ -49,8 +49,8 @@ function Guests() {
     };
 
     // caching error state and message type for snackBar
-    const [errorState, setErrorState] = useState('');
-    const [msgType, setMsgType] = useState('');
+    // const [errorState, setErrorState] = useState('');
+    // const [msgType, setMsgType] = useState('');
 
     // Fetching all guest registered for event from database
     useEffect(() => {
@@ -58,7 +58,7 @@ function Guests() {
             try {
                 setStatus('loading');
                 const response = await fetch(
-                    `http://localhost:8080/guests/${id}`,
+                    `https://sgrab-events.herokuapp.com/guests/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -84,7 +84,7 @@ function Guests() {
     const onDelete = async (guestId) => {
         try {
             const response = await fetch(
-                `http://localhost:8080/guests/${guestId}`,
+                `https://sgrab-events.herokuapp.com/guests/${guestId}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -107,7 +107,7 @@ function Guests() {
         event.preventDefault();
         try {
             const response = await fetch(
-                `http://localhost:8080/guests/add/${id}`,
+                `https://sgrab-events.herokuapp.com/guests/add/${id}`,
                 {
                     method: 'POST',
                     body: JSON.stringify(addGuest),

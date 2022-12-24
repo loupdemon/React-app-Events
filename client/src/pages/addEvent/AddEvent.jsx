@@ -24,14 +24,17 @@ function AddEvent() {
     const onFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8080/events`, {
-                method: 'POST',
-                body: JSON.stringify(addEvent),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            const response = await fetch(
+                `https://sgrab-events.herokuapp.com/events`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(addEvent),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                    },
+                }
+            );
             const data = await response.json();
             if (data.insertId) {
                 navigate('/home');

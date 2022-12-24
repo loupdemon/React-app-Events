@@ -14,13 +14,16 @@ function Login() {
     const onFormSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/login', {
-                method: 'POST',
-                body: JSON.stringify(userData),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const response = await fetch(
+                'https://sgrab-events.herokuapp.com/login',
+                {
+                    method: 'POST',
+                    body: JSON.stringify(userData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
             const data = await response.json();
             // saving JWT in local storage
             if (data.token) {

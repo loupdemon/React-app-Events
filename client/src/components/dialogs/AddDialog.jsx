@@ -22,14 +22,17 @@ export default function AddDialog(props) {
     const onGuestEdit = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8080/guests/${id}`, {
-                method: 'PATCH',
-                body: JSON.stringify(addGuest),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
-            });
+            const response = await fetch(
+                `https://sgrab-events.herokuapp.com/guests/${id}`,
+                {
+                    method: 'PATCH',
+                    body: JSON.stringify(addGuest),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                    },
+                }
+            );
             const data = await response.json();
             if (data.affectedRows > 0) {
                 passData(data);

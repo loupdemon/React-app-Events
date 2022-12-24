@@ -22,11 +22,16 @@ function Home() {
         const fetchEvents = async () => {
             try {
                 setStatus('loading');
-                const response = await fetch('http://localhost:8080/events', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                    },
-                });
+                const response = await fetch(
+                    'https://sgrab-events.herokuapp.com/events',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                'jwt'
+                            )}`,
+                        },
+                    }
+                );
                 const data = await response.json();
                 setEvents(data);
 
