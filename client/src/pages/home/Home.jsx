@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import Nav from '../../components/nav/Nav';
 
 function Home() {
+    const token = localStorage.getItem('jwt');
     const navigate = useNavigate();
     const [events, setEvents] = useState([]);
     const [status, setStatus] = useState('idle');
@@ -38,10 +39,15 @@ function Home() {
 
                 setStatus('fulfilled');
             } catch (err) {
-                alert('Unexpected error!');
-                setStatus('rejected');
-                localStorage.clear();
-                navigate('/login');
+                if (!token) {
+                    alert('Not authorized');
+                    navigate('/login');
+                } else {
+                    alert('Unexpected Error');
+                    setStatus('rejected');
+                    localStorage.clear();
+                    navigate('/login');
+                }
             }
         };
         fetchEvents();
