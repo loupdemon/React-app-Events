@@ -70,11 +70,8 @@ function Nav() {
                         <ChevronRightIcon onClick={() => setOpen(false)} />
                     </IconButton>
                 </div>
-
                 <Divider />
-                <Box sx={{ display: 'block', color: 'black' }}>
-                    <NavLinks />
-                </Box>
+                <NavLinks open={open} />
             </SwipeableDrawer>
         </AppBar>
     );
