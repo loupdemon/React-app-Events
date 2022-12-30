@@ -1,5 +1,6 @@
 import {
     Box,
+    Container,
     CardMedia,
     CircularProgress,
     Grid,
@@ -68,11 +69,10 @@ function Home() {
                     <CircularProgress />
                 </Box>
             ) : (
-                <div>
+                <Container maxWidth='xl'>
                     <Grid
                         container
-                        columnGap={4}
-                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                        columnGap={{ xs: 4, xl: 11 }}
                         justifyContent='center'
                     >
                         {events.map((event) => {
@@ -125,7 +125,7 @@ function Home() {
                             );
                         })}
                     </Grid>
-                </div>
+                </Container>
             )}
         </div>
     );

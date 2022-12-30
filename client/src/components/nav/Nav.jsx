@@ -1,56 +1,82 @@
-import React from 'react';
-import { Box, AppBar, Typography, Button, Toolbar } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    Box,
+    Container,
+    AppBar,
+    Typography,
+    Button,
+    Toolbar,
+    IconButton,
+    SwipeableDrawer,
+    Divider,
+    ListItem,
+} from '@mui/material';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import { useNavigate, Link } from 'react-router-dom';
+import NavLinks from './NavLinks';
+
 function Nav() {
-    const navigate = useNavigate();
-    const onUserLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-    };
+    // const navigate = useNavigate();
+    // const onUserLogout = () => {
+    //     localStorage.clear();
+    //     navigate('/login');
+    // };
+    const [open, setOpen] = useState(false);
     return (
-        <>
-            <Box sx={{ mb: 5, flexGrow: 1 }}>
-                <AppBar position='static'>
-                    <Toolbar>
-                        <EventAvailableIcon></EventAvailableIcon>
-                        <Typography
-                            variant='h6'
-                            component='div'
-                            sx={{ flexGrow: 1 }}
-                        >
-                            Event Register
-                        </Typography>
-                        <Button color='inherit'>
-                            <Link
-                                to='/home'
-                                style={{
-                                    textDecoration: 'none',
+        <AppBar position='sticky'>
+            <Container maxWidth='xl'>
+                <Toolbar disableGutters>
+                    <EventAvailableIcon></EventAvailableIcon>
+                    <Typography
+                        variant='h6'
+                        component='div'
+                        sx={{ flexGrow: 1 }}
+                    >
+                        Event Register
+                    </Typography>
+                    <Box
+                        disableGutters
+                        sx={{ display: { xs: 'none', sm: 'inline' } }}
+                    >
+                        <NavLinks />
+                    </Box>
+                    <Box
+                        disableGutters
+                        sx={{ display: { xs: 'inline', sm: 'none' } }}
+                    >
+                        <IconButton disableGutters>
+                            <MenuRoundedIcon
+                                onClick={() => setOpen(true)}
+                                fontSize='large'
+                                sx={{
                                     color: 'white',
                                 }}
-                            >
-                                Events
-                            </Link>
-                        </Button>
-                        <Button color='inherit'>
-                            <Link
-                                to='/add_event'
-                                style={{
-                                    textDecoration: 'none',
-                                    color: 'white',
-                                }}
-                            >
-                                Add Event
-                            </Link>
-                        </Button>
-                        <Button onClick={onUserLogout} color='inherit'>
-                            <LogoutIcon />
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-            </Box>
-        </>
+                            />
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </Container>
+            <SwipeableDrawer
+                anchor='right'
+                open={open}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+            >
+                <div>
+                    <IconButton>
+                        <ChevronRightIcon onClick={() => setOpen(false)} />
+                    </IconButton>
+                </div>
+
+                <Divider />
+                <Box sx={{ display: 'block', color: 'black' }}>
+                    <NavLinks />
+                </Box>
+            </SwipeableDrawer>
+        </AppBar>
     );
 }
 
