@@ -4,18 +4,14 @@ import {
     Container,
     AppBar,
     Typography,
-    Button,
     Toolbar,
     IconButton,
     SwipeableDrawer,
     Divider,
-    ListItem,
 } from '@mui/material';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import LogoutIcon from '@mui/icons-material/Logout';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import { useNavigate, Link } from 'react-router-dom';
 import NavLinks from './NavLinks';
 
 function Nav() {
@@ -28,7 +24,7 @@ function Nav() {
     return (
         <AppBar position='sticky'>
             <Container maxWidth='xl'>
-                <Toolbar disableGutters>
+                <Toolbar>
                     <EventAvailableIcon></EventAvailableIcon>
                     <Typography
                         variant='h6'
@@ -37,19 +33,12 @@ function Nav() {
                     >
                         Event Register
                     </Typography>
-                    <Box
-                        disableGutters
-                        sx={{ display: { xs: 'none', sm: 'inline' } }}
-                    >
+                    <Box sx={{ display: { xs: 'none', sm: 'inline' } }}>
                         <NavLinks />
                     </Box>
-                    <Box
-                        disableGutters
-                        sx={{ display: { xs: 'inline', sm: 'none' } }}
-                    >
-                        <IconButton disableGutters>
+                    <Box sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                        <IconButton onClick={() => setOpen(true)}>
                             <MenuRoundedIcon
-                                onClick={() => setOpen(true)}
                                 fontSize='large'
                                 sx={{
                                     color: 'white',
@@ -66,8 +55,8 @@ function Nav() {
                 onClose={() => setOpen(false)}
             >
                 <div>
-                    <IconButton>
-                        <ChevronRightIcon onClick={() => setOpen(false)} />
+                    <IconButton onClick={() => setOpen(false)}>
+                        <ChevronRightIcon />
                     </IconButton>
                 </div>
                 <Divider />

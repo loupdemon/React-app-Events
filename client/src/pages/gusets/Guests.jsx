@@ -54,6 +54,7 @@ function Guests() {
 
     // Fetching all guest registered for event from database
     useEffect(() => {
+        const token = localStorage.getItem('jwt');
         const fetchGuests = async () => {
             try {
                 setStatus('loading');
@@ -71,10 +72,15 @@ function Guests() {
                 setGuests(data);
                 setStatus('fulfilled');
             } catch (err) {
-                alert('Unexpected error!');
-                setStatus('rejected');
-                localStorage.clear();
-                navigate('/login');
+                if (!token) {
+                    alert('Not authorized');
+                    navigate('/login');
+                } else {
+                    alert('Unexpected Error');
+                    setStatus('rejected');
+                    localStorage.clear();
+                    navigate('/login');
+                }
             }
         };
         fetchGuests();
